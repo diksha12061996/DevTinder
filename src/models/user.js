@@ -1,6 +1,6 @@
 const { request } = require("express");
 const mongoose = require("mongoose");
-
+const validator = require("validator")
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -15,7 +15,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase:true,
-        trim:true
+        trim:true,
+        validate(Value){
+            if(!validator.isEmail(Value))
+                throw new Error("invalid email Id"+Value);
+        }
     },
     password: {
         type: String,
